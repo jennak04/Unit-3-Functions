@@ -51,7 +51,13 @@ print(reverse_sublists([1, 2, 3], 5))
 print("\nROTATE LIST")
 def rotate_lists(item, position):
     rotate = position % len(item)
-    return item[-rotate:] + item[:-rotate]
+    result = []
+    
+    for i in range(len(item)):
+        new_pos = (i - rotate) % len(item)
+        result.append(item[new_pos])
+        
+    return result
 
 print(rotate_lists([1, 2, 3, 4, 5], 2))
 print(rotate_lists([1, 2, 3, 4, 5], -2))
