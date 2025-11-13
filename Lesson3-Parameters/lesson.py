@@ -45,5 +45,3 @@ def sum_scores(*scores):
 
 result = sum_scores(10, 20, 30)
 result2 = sum_scores(10,20,30,40,55,60)
-
-
