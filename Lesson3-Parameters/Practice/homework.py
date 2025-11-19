@@ -13,6 +13,8 @@ print(process_order("B","laptop", express=True)) #15.0
 # question 2
 def make_notification(user, *messages, urgent=False):
     text = ", ".join(messages)
+    # or prefix = "URGENT: " if urgent else ""
+    # return f"{prefix} {user} {text}
 
     if urgent:
         return f"URGENT: {user} - {text}"
