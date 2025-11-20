@@ -1,5 +1,16 @@
 # question 1
-# i dont understand question 1
+def search_user_database(user):
+    if user == "" or " ":
+        return None, "No search query", False
+    
+    if not user.isalpha():
+        return False, "Invalid Characters", False
+    
+result, message, success = search_user_database("")
+print(result) # None
+print(message) # "No search query"
+print(success) # False
+    
 
 # question 2
 def analyze_book_pages(books):
