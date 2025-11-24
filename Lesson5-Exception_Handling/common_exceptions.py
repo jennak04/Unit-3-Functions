@@ -20,3 +20,11 @@
 # 6 - SyntaxError
 #for i in range(5)
  #   print(i)
+ 
+# 7 - AttributeError
+#x = 5
+#x.append(3)
+
+# 8 - ModuleNotFoundErrror
+# import wonka_factory
+
