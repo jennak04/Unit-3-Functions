@@ -1,48 +1,64 @@
 """
 =============================================================================
-UNIT 3 PRACTICE - Task 3: Playlist Statistics
+UNIT 3 PRACTICE - Task 4: Build Custom Playlist
 =============================================================================
-Concepts: *args, multiple return values, tuple unpacking, handling empty input
+Concepts: **kwargs, try/except, dictionary building, summing values
 
 INSTRUCTIONS:
 1. Complete the function below where it says # TODO
 2. Run this file to test your solution
-3. All 4 tests should pass before moving to Task 4
+3. All 4 tests should pass to complete the practice!
 =============================================================================
 """
 
-def playlist_stats(*durations):
+def build_playlist(playlist_name, **songs):
     """
-    Calculate statistics for a playlist of songs.
+    Build a custom playlist from keyword arguments.
     
-    Accepts any number of song durations and returns the total time,
-    number of songs, and average duration. If no durations are provided,
-    returns zeros to avoid division errors.
+    Creates a playlist dictionary with the playlist name, a dictionary
+    of songs with their play counts, and the total number of plays.
+    Uses try/except to safely calculate the total.
     
     Args:
-        *durations: Any number of song durations in seconds (integers)
+        playlist_name: The name of the playlist (required, string)
+        **songs: Any number of song=play_count pairs
+                 Example: song1=5, song2=10
     
     Returns:
-        tuple: A tuple of (total_time, song_count, average_duration)
-               - total_time: sum of all durations (int)
-               - song_count: number of songs (int)
-               - average_duration: average length (float)
+        dict: A dictionary with keys:
+              - "name": the playlist name
+              - "songs": dictionary of {song: play_count}
+              - "total_plays": sum of all play counts
     
     Examples:
-        >>> playlist_stats(180, 210, 240, 195)
-        (825, 4, 206.25)
+        >>> build_playlist("Road Trip", song1=5, song2=10, song3=3)
+        {"name": "Road Trip", "songs": {"song1": 5, "song2": 10, "song3": 3}, "total_plays": 18}
         
-        >>> playlist_stats(300, 300)
-        (600, 2, 300.0)
+        >>> build_playlist("Chill Vibes", relaxing=20, ambient=15)
+        {"name": "Chill Vibes", "songs": {"relaxing": 20, "ambient": 15}, "total_plays": 35}
         
-        >>> playlist_stats()
-        (0, 0, 0.0)
+        >>> build_playlist("Empty Playlist")
+        {"name": "Empty Playlist", "songs": {}, "total_plays": 0}
     """
     # TODO: Write your code here (replace 'pass')
-    # Hint 1: Check if durations is empty FIRST (if not durations:)
-    # Hint 2: Use sum() and len() for calculations
-    # Hint 3: Return three values separated by commas
-    pass
+    # Hint 1: **songs is already a dictionary!
+    # Hint 2: Use sum(songs.values()) to get total plays
+    # Hint 3: Wrap the sum in try/except in case of bad values
+    # Hint 4: Return a dictionary with "name", "songs", and "total_plays"
+    try:
+        total_plays = sum(songs.values())
+        return {
+            "name": playlist_name,
+            "songs": songs,
+            "total_plays": total_plays
+        }
+        
+    except ValueError:
+        return {
+            "name": playlist_name,
+            "songs": songs,
+            "total_plays": 0
+        }
 
 
 # =============================================================================
@@ -50,44 +66,54 @@ def playlist_stats(*durations):
 # =============================================================================
 if __name__ == "__main__":
     print("=" * 50)
-    print("🎵 TASK 3: playlist_stats")
+    print("🎵 TASK 4: build_playlist")
     print("=" * 50)
     
-    # Test 1: Multiple durations
-    result = playlist_stats(180, 210, 240, 195)
-    expected = (825, 4, 206.25)
+    # Test 1: Multiple songs
+    result = build_playlist("Road Trip", song1=5, song2=10, song3=3)
+    expected = {"name": "Road Trip", "songs": {"song1": 5, "song2": 10, "song3": 3}, "total_plays": 18}
     if result == expected:
-        print("✅ Test 1 PASSED: playlist_stats(180, 210, 240, 195)")
+        print("✅ Test 1 PASSED: build_playlist with multiple songs")
     else:
-        print(f"❌ Test 1 FAILED: Expected {expected}, got {result}")
+        print(f"❌ Test 1 FAILED:")
+        print(f"   Expected: {expected}")
+        print(f"   Got:      {result}")
     
-    # Test 2: Two durations
-    result = playlist_stats(300, 300)
-    expected = (600, 2, 300.0)
+    # Test 2: Different song names
+    result = build_playlist("Chill Vibes", relaxing=20, ambient=15)
+    expected = {"name": "Chill Vibes", "songs": {"relaxing": 20, "ambient": 15}, "total_plays": 35}
     if result == expected:
-        print("✅ Test 2 PASSED: playlist_stats(300, 300)")
+        print("✅ Test 2 PASSED: build_playlist('Chill Vibes', relaxing=20, ambient=15)")
     else:
-        print(f"❌ Test 2 FAILED: Expected {expected}, got {result}")
+        print(f"❌ Test 2 FAILED:")
+        print(f"   Expected: {expected}")
+        print(f"   Got:      {result}")
     
-    # Test 3: Single duration
-    result = playlist_stats(240)
-    expected = (240, 1, 240.0)
+    # Test 3: Empty playlist (no songs)
+    result = build_playlist("Empty Playlist")
+    expected = {"name": "Empty Playlist", "songs": {}, "total_plays": 0}
     if result == expected:
-        print("✅ Test 3 PASSED: playlist_stats(240)")
+        print("✅ Test 3 PASSED: build_playlist('Empty Playlist') handles empty")
     else:
-        print(f"❌ Test 3 FAILED: Expected {expected}, got {result}")
+        print(f"❌ Test 3 FAILED:")
+        print(f"   Expected: {expected}")
+        print(f"   Got:      {result}")
     
-    # Test 4: Empty (no durations) - should NOT crash!
-    result = playlist_stats()
-    expected = (0, 0, 0.0)
+    # Test 4: Single song
+    result = build_playlist("One Hit Wonder", hit_song=100)
+    expected = {"name": "One Hit Wonder", "songs": {"hit_song": 100}, "total_plays": 100}
     if result == expected:
-        print("✅ Test 4 PASSED: playlist_stats() handles empty")
+        print("✅ Test 4 PASSED: build_playlist('One Hit Wonder', hit_song=100)")
     else:
-        print(f"❌ Test 4 FAILED: Expected {expected}, got {result}")
+        print(f"❌ Test 4 FAILED:")
+        print(f"   Expected: {expected}")
+        print(f"   Got:      {result}")
     
     print("=" * 50)
     
-    # Bonus: Show how to unpack the results (only if function works)
-    print("\n📝 Example of tuple unpacking:")
-    print("   total, count, avg = playlist_stats(180, 200, 220)")
-    print("   # This gives you three separate variables!")
+    # Bonus: Show what **kwargs looks like inside the function
+    print("\n📝 What **songs becomes inside the function:")
+    print("   build_playlist('Test', a=1, b=2, c=3)")
+    print("   → songs = {'a': 1, 'b': 2, 'c': 3}")
+    print("   → songs.values() = dict_values([1, 2, 3])")
+    print("   → sum(songs.values()) = 6")
